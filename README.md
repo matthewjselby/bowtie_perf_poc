@@ -8,7 +8,8 @@ The concept outlined here is one of many possible implementations under explorat
 
 The basic concept is to wrap each test harness in a profiling script that runs it as a subprocess in the Docker container spun up for the implementation, as shown in the diagram below:
 
-![](assets/bowtie_perf_diagram.svg)
+![](assets/bowtie_perf_diagram_dark.svg#gh-dark-mode-only)
+![](assets/bowtie_perf_diagram_light.svg#gh-light-mode-only)
 
 The current proof of concept uses a Python script, but other implementations are possible, including a compiled executable that could serve as an entrypoint.
 
