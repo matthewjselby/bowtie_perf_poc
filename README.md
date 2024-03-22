@@ -2,7 +2,10 @@
 
 This is a proof of concept for performace profiling for use in [bowtie](https://github.com/bowtie-json-schema/bowtie) as specified in this [issue](https://github.com/json-schema-org/community/issues/605) as part of my proposal for [GSoC](https://summerofcode.withgoogle.com).
 
-Bowtie orchestrates a number of Docker containers for running each [implementation](https://docs.bowtie.report/en/stable/implementers/#term-implementation) of the JSON Schema specification, sending commands via stdin to a [test harness](https://docs.bowtie.report/en/stable/implementers/#term-test-harness) running in the container, which then appropriately calls the implementation and sends back results via stdout.
+Bowtie orchestrates a number of Docker containers for running each [implementation](https://docs.bowtie.report/en/stable/implementers/#term-implementation) of the JSON Schema specification, sending commands via stdin to a [test harness](https://docs.bowtie.report/en/stable/implementers/#term-test-harness) running in the container, which then appropriately calls the implementation and sends back results via stdout. The currently functionality of this portion of bowtie is illustrated in the diagram below:
+
+![](assets/bowtie_diagram_light.svg#gh-light-mode-only)
+![](assets/bowtie_diagram_dark.svg#gh-dark-mode-only)
 
 The concept outlined here is one of many possible implementations under exploration, but serves as a starting point for implementation agnostic performance profiling *in Docker*.
 
@@ -11,7 +14,7 @@ The basic concept is to wrap each test harness in a profiling script that runs i
 ![](assets/bowtie_perf_diagram_dark.svg#gh-dark-mode-only)
 ![](assets/bowtie_perf_diagram_light.svg#gh-light-mode-only)
 
-The current proof of concept uses a Python script, but other implementations are possible, including a compiled executable that could serve as an entrypoint.
+The current proof of concept uses a Python script, but other implementations are possible, including a shell script or compiled executable that could serve as an entrypoint.
 
 In the current code, `profiling.py` is a wrapper script serving as an `ENTRYPOINT` to the docker container that will run a test harness. Commands for running the test harness are specified in `CMD`. `CMD` arguments in a `Dockerfile` are passed to the `ENTRYPOINT` - so that in this circumstance `profiling.py` will receive the contents of `CMD`, which specifies how to run the test harness. In this case, the test harness is represented by `test.py`, so `CMD` is simply `python3 test.py`, which is passed to `profiling.py`.
 
