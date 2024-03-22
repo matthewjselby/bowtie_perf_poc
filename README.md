@@ -6,7 +6,11 @@ Bowtie orchestrates a number of Docker containers for running each [implementati
 
 The concept outlined here is one of many possible implementations under exploration, but serves as a starting point for implementation agnostic performance profiling *in Docker*.
 
-The basic concept is to wrap each test harness in a profiling script that runs it as a subprocess in the Docker container spun up for the implementation. The current proof of concept uses a Python script, but other implementations are possible, including a compiled executable that could serve as an entrypoint.
+The basic concept is to wrap each test harness in a profiling script that runs it as a subprocess in the Docker container spun up for the implementation, as shown in the diagram below:
+
+![](assets/bowtie_perf_diagram.svg)
+
+The current proof of concept uses a Python script, but other implementations are possible, including a compiled executable that could serve as an entrypoint.
 
 In the current code, `profiling.py` is a wrapper script serving as an `ENTRYPOINT` to the docker container that will run a test harness. Commands for running the test harness are specified in `CMD`. `CMD` arguments in a `Dockerfile` are passed to the `ENTRYPOINT` - so that in this circumstance `profiling.py` will receive the contents of `CMD`, which specifies how to run the test harness. In this case, the test harness is represented by `test.py`, so `CMD` is simply `python3 test.py`, which is passed to `profiling.py`.
 
