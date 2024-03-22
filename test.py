@@ -6,8 +6,9 @@ from time import sleep
 if __name__ == "__main__":
     for line in sys.stdin:
         sleep(2.5)
+        command = json.loads(line)
         result = {
-            "cmd": line.strip(),
+            "cmd": command["cmd"],
             "res": "SUCCESS"
         }
         sys.stdout.write(f"{json.dumps(result)}\n")
