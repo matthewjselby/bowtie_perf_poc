@@ -25,7 +25,13 @@ As an example, in the current proof of concept the container can be attached to 
 {"cmd": "run", "seq": 1, "case": {}, "perf": true}
 Received command {"cmd": "run", "seq": 1, "case": {}, "perf": true}
 Sending command to test harness...
-Response from test harness (with added perf data): {"cmd": "run", "res": "SUCCESS", "perf": {"elapsed_time_ms": 2502.040147781372}}
+Response from test harness (with added perf data):
+{"cmd": "run", "res": "SUCCESS", "perf": {"elapsed_time_ms": 2502.040147781372}}
+```
+
+As a further example, profiling can be turned off using the switch `perf`:
+
+```text
 {"cmd": "run", "seq": 1, "case": {}, "perf": false}
 Received command {"cmd": "run", "seq": 1, "case": {}, "perf": false}
 Sending command to test harness...
