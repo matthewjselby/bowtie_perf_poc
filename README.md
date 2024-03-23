@@ -4,15 +4,25 @@ This is a proof of concept for performace profiling for use in [bowtie](https://
 
 Bowtie orchestrates a number of Docker containers for running each [implementation](https://docs.bowtie.report/en/stable/implementers/#term-implementation) of the JSON Schema specification, sending commands via stdin to a [test harness](https://docs.bowtie.report/en/stable/implementers/#term-test-harness) running in the container, which then appropriately calls the implementation and sends back results via stdout. The currently functionality of this portion of bowtie is illustrated in the diagram below:
 
-![](assets/bowtie_diagram_light.svg#gh-light-mode-only)
-![](assets/bowtie_diagram_dark.svg#gh-dark-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/bowtie_diagram_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/bowtie_diagram_light.svg">
+  <img alt="Shows a block diagram of bowtie communicating with an implementation container." src="assets/bowtie_diagram_light.svg">
+</picture>
+
+Essentially, a test harness acts as a wrapper for an implementation, providing a standardized interface that bowtie can interact with.
 
 The concept outlined here is one of many possible implementations under exploration, but serves as a starting point for implementation agnostic performance profiling *in Docker*.
 
 The basic concept is to wrap each test harness in a profiling script that runs it as a subprocess in the Docker container spun up for the implementation, as shown in the diagram below:
 
-![](assets/bowtie_perf_diagram_dark.svg#gh-dark-mode-only)
-![](assets/bowtie_perf_diagram_light.svg#gh-light-mode-only)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/bowtie_perf_diagram_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/bowtie_perf_diagram_light.svg">
+  <img alt="Shows a block diagram of bowtie communicating with an implementation container via a profiling wrapper." src="assets/bowtie_perf_diagram_light.svg">
+</picture>
+
+Essentially, the profiling wrapper provides an additional standardized interface that is implementation agnostic. Functionality that is implementation agnostic can be provided in the profiling wrapper, which is common to all implementation containers. Functionality that is implementation specific an be provided in the test harness as is currently done.
 
 The current proof of concept uses a Python script, but other implementations are possible, including a shell script or compiled executable that could serve as an entrypoint.
 
